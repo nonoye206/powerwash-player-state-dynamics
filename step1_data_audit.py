@@ -1,3 +1,4 @@
+import argparse
 import csv
 import json
 import math
@@ -7,6 +8,8 @@ from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
+
+from analysis_config import resolve_raw_zip
 
 
 ZIP_PATH = Path("data.zip")
@@ -413,7 +416,26 @@ def write_report(table_summaries, column_missing, session_summary, per_player):
     (OUT_DIR / "step1_report.md").write_text("\n".join(lines), encoding="utf-8")
 
 
-def main():
+def parse_args():
+    parser = argparse.ArgumentParser(description="Audit raw telemetry tables and reconstruct sessions.")
+    parser.add_argument(
+        "--raw-zip",
+        default=None,
+        help="Path to the raw telemetry zip archive. Defaults to PWS_RAW_ZIP or ./data.zip.",
+    )
+    parser.add_argument(
+        "--out-dir",
+        default=str(OUT_DIR),
+        help="Output directory for Step 1 audit artifacts.",
+    )
+    return parser.parse_args()
+
+
+def main(raw_zip: str | None = None, out_dir: str | None = None):
+    global ZIP_PATH, OUT_DIR
+    ZIP_PATH = resolve_raw_zip(raw_zip)
+    if out_dir is not None:
+        OUT_DIR = Path(out_dir)
     OUT_DIR.mkdir(exist_ok=True)
     with zipfile.ZipFile(ZIP_PATH) as zf:
         members = csv_members(zf)
@@ -431,4 +453,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    args = parse_args()
+    main(raw_zip=args.raw_zip, out_dir=args.out_dir)

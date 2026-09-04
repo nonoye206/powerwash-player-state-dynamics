@@ -1,0 +1,8 @@
+name: player-behavior-state-dynamics
+channels:
+  - conda-forge
+dependencies:
+  - python>=3.10
+  - pandas>=2.0
+  - numpy>=1.24
+  - pillow>=10.0

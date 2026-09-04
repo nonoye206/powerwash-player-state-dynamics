@@ -292,6 +292,19 @@ def purchase_anomaly_audit(df):
     append_lines.append(
         "These sessions should be flagged as purchase-burst/boundary-risk cases when interpreting the minimal/no-op state."
     )
+    append_lines.extend(
+        [
+            "",
+            "## External Context For 2023-01-31",
+            "",
+            "- SteamDB records a major PowerWash Simulator update on 2023-01-31: `1.1 Update + Free Tomb Raider Special Pack Out Now!`, build `10314903`.",
+            "- The same update notes include the Tomb Raider Special Pack, new Special Jobs access, save/reset-dirt controls, Research Edition Rewards, and a Research Branch issue about popup spam with a later live fix.",
+            "- The Scientific Data paper reports a second recruitment wave in January 2023, where the main PWS branch added a menu button inviting players into the research branch.",
+            "- This supports the interpretation that 2023-01-31 was a game-version and research-branch regime change. The timing strongly suggests a telemetry/instrumentation regime change associated with the Jan31 v1.1 / Research Edition update.",
+            "- Evidence boundary: this does not prove that official notes explicitly introduced `update_current_state`; we should not write that as a confirmed fact.",
+            "- Combined with this Step 3.6 sensitivity check, the best current interpretation is: the Jan31 update likely created a short-term spike in minimal/no-op sessions, but the minimal/no-op state itself predates the update and survives when the update window is removed.",
+        ]
+    )
     report_path = OUT_DIR / "step3_6_date_regime_sensitivity_report.md"
     report_path.write_text(report_path.read_text(encoding="utf-8") + "\n".join(append_lines), encoding="utf-8")
     return anomaly_summary

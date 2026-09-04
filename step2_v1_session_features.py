@@ -1,8 +1,11 @@
+import argparse
 import json
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
+
+from analysis_config import resolve_raw_data_dir
 
 
 DATA_DIR = Path("data") / "data"
@@ -276,7 +279,33 @@ def sanity_checks(features, assignment_summary):
     return checks
 
 
-def main():
+def parse_args():
+    parser = argparse.ArgumentParser(description="Build V1 session-level behavioral features.")
+    parser.add_argument(
+        "--raw-data-dir",
+        default=None,
+        help="Directory containing extracted raw telemetry CSV files. Defaults to PWS_RAW_DATA_DIR or ./data/data.",
+    )
+    parser.add_argument(
+        "--step1-dir",
+        default=str(STEP1_DIR),
+        help="Directory containing Step 1 reconstructed_sessions.csv.",
+    )
+    parser.add_argument(
+        "--out-dir",
+        default=str(OUT_DIR),
+        help="Output directory for Step 2 V1 artifacts.",
+    )
+    return parser.parse_args()
+
+
+def main(raw_data_dir: str | None = None, step1_dir: str | None = None, out_dir: str | None = None):
+    global DATA_DIR, STEP1_DIR, OUT_DIR
+    DATA_DIR = resolve_raw_data_dir(raw_data_dir)
+    if step1_dir is not None:
+        STEP1_DIR = Path(step1_dir)
+    if out_dir is not None:
+        OUT_DIR = Path(out_dir)
     OUT_DIR.mkdir(exist_ok=True)
     sessions = read_sessions()
     lookup = session_lookup(sessions)
@@ -304,4 +333,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    args = parse_args()
+    main(raw_data_dir=args.raw_data_dir, step1_dir=args.step1_dir, out_dir=args.out_dir)

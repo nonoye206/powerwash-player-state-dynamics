@@ -95,6 +95,23 @@ The analysis includes several robustness checks:
 
 ## Reproducible Pipeline
 
+Install the lightweight Python dependencies with:
+
+```powershell
+python -m pip install -r requirements.txt
+```
+
+Then run the full pipeline from raw telemetry:
+
+```powershell
+.\run_pipeline.ps1 `
+  -Python "python" `
+  -RawZip "C:\path\to\data.zip" `
+  -RawDataDir "C:\path\to\data\data"
+```
+
+The same paths can be supplied with `PWS_RAW_ZIP` and `PWS_RAW_DATA_DIR`. See `ARTIFACT_MANIFEST.md` for the claim-to-artifact map.
+
 - `step1_data_audit.py`: audits source event tables and reconstructs sessions.
 - `step2_v1_session_features.py`: builds session-level V1 features.
 - `step2_v1_feature_diagnostics.py`: produces feature diagnostics and `state_discovery_input_v1.csv`.
