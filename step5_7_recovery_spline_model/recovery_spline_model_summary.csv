@@ -1,0 +1,3 @@
+﻿analysis,sessions,players,recovered,recovery_rate,knots,irls_iterations,mean_predicted_recovery
+rcs_recent_s4_density_prev5,7093,3730,2096,0.2955026082052728,"0.0,0.2,0.5,1.0",7,0.2955026082052728
+linear_recent_s4_density_prev5,7093,3730,2096,0.2955026082052728,,6,0.2955026082052728
