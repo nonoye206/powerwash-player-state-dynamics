@@ -10,7 +10,7 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parent
 LABELS_PATH = ROOT / "step5_disengagement_risk" / "session_disengagement_labels.csv"
 FEATURES_PATH = ROOT / "step2_v1" / "session_features_v1.csv"
-OUT_DIR = ROOT / "step5_6_recovery_tipping_point"
+OUT_DIR = ROOT / "step5_6_recovery_threshold_scan"
 
 DELTAS = (30, 14, 7)
 UPDATE_WINDOW_START = pd.Timestamp("2023-01-31")
@@ -309,7 +309,7 @@ def fit_logistic(df: pd.DataFrame, delta: int, thresholds: dict[str, float], ana
 def main() -> None:
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     s4 = load_s4_frame()
-    s4.to_csv(OUT_DIR / "s4_recovery_tipping_point_base.csv", index=False, encoding="utf-8-sig")
+    s4.to_csv(OUT_DIR / "s4_recovery_threshold_scan_base.csv", index=False, encoding="utf-8-sig")
 
     all_scans = []
     all_bins = []
@@ -355,7 +355,7 @@ def main() -> None:
         fit_logistic(s4, 30, thresholds, "exclude_update_window_30d", exclude_update=True),
     ]
     coefs = pd.concat(coef_frames, ignore_index=True)
-    coefs.to_csv(OUT_DIR / "recovery_tipping_point_adjusted_logistic.csv", index=False, encoding="utf-8-sig")
+    coefs.to_csv(OUT_DIR / "recovery_threshold_scan_adjusted_logistic.csv", index=False, encoding="utf-8-sig")
 
     stability_rows = []
     for _, row in main_best.iterrows():
@@ -393,7 +393,7 @@ def main() -> None:
                     }
                 )
     stability = pd.DataFrame(stability_rows)
-    stability.to_csv(OUT_DIR / "recovery_tipping_point_threshold_stability.csv", index=False, encoding="utf-8-sig")
+    stability.to_csv(OUT_DIR / "recovery_threshold_scan_stability.csv", index=False, encoding="utf-8-sig")
 
     focal_terms = [f"tipping_high_{v}" for v in wanted if f"tipping_high_{v}" in set(coefs["term"])]
     focal = coefs[coefs["term"].isin(focal_terms)].copy()
@@ -469,14 +469,14 @@ def main() -> None:
         "",
         "## Outputs",
         "",
-        "- `s4_recovery_tipping_point_base.csv`",
+        "- `s4_recovery_threshold_scan_base.csv`",
         "- `recovery_probability_binned_trends.csv`",
         "- `recovery_probability_threshold_scan.csv`",
         "- `recovery_probability_best_thresholds.csv`",
-        "- `recovery_tipping_point_threshold_stability.csv`",
-        "- `recovery_tipping_point_adjusted_logistic.csv`",
+        "- `recovery_threshold_scan_stability.csv`",
+        "- `recovery_threshold_scan_adjusted_logistic.csv`",
     ]
-    (OUT_DIR / "step5_6_recovery_tipping_point_report.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (OUT_DIR / "step5_6_recovery_threshold_scan_report.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     print(focal[["analysis", "term", "adjusted_odds_ratio_for_recovery", "or_ci_low_95", "or_ci_high_95", "p_value"]].to_string(index=False))
     print(f"out={OUT_DIR}")
 

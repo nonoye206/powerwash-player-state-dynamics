@@ -35,7 +35,7 @@ This manifest maps the main reported claims to the scripts and generated artifac
 | S4 persistence has elevated 30d risk in the main model but weakens under update-window exclusion | `step5_2_logistic_disengagement.py` | `step5_2_logistic_disengagement/` |
 | Recovery from S4 to S1/S2 has lower adjusted disengagement risk than S4 persistence | `step5_3_recovery_path_analysis.py`, `step5_3_adjusted_recovery_path_model.py` | `step5_3_adjusted_recovery_path_model/adjusted_recovery_path_coefficients.csv`, `figures/figure_1_recovery_vs_persistence.png` |
 | Behavioral narrowing is not disengagement-specific in V1 after matched comparison | `step5_4_behavioral_rigidity.py`, `step5_5_behavioral_narrowing_test.py` | `step5_5_behavioral_narrowing_test/` |
-| Recent S4 concentration is associated with lower recoverability | `step5_6_recovery_tipping_point.py`, `step5_7_recovery_spline_model.py` | `step5_6_recovery_tipping_point/`, `step5_7_recovery_spline_model/recovery_spline_predicted_curve.csv`, `figures/figure_2_recoverability_curve.png` |
+| Recent S4 concentration is associated with lower recoverability | `step5_6_recovery_threshold_scan.py`, `step5_7_recovery_spline_model.py` | `step5_6_recovery_threshold_scan/`, `step5_7_recovery_spline_model/recovery_spline_predicted_curve.csv`, `figures/figure_2_recoverability_curve.png` |
 
 ## Core Figures
 

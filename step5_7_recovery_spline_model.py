@@ -9,7 +9,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 ROOT = Path(__file__).resolve().parent
-BASE_PATH = ROOT / "step5_6_recovery_tipping_point" / "s4_recovery_tipping_point_base.csv"
+BASE_PATH = ROOT / "step5_6_recovery_threshold_scan" / "s4_recovery_threshold_scan_base.csv"
 OUT_DIR = ROOT / "step5_7_recovery_spline_model"
 
 RIDGE = 1e-6

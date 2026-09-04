@@ -7,11 +7,11 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 ROOT = Path(__file__).resolve().parent
-IN_DIR = ROOT / "step5_6_recovery_tipping_point"
-OUT_DIR = ROOT / "step5_6_recovery_tipping_point"
+IN_DIR = ROOT / "step5_6_recovery_threshold_scan"
+OUT_DIR = ROOT / "step5_6_recovery_threshold_scan"
 BIN_PATH = IN_DIR / "recovery_probability_binned_trends.csv"
 BEST_PATH = IN_DIR / "recovery_probability_best_thresholds.csv"
-BASE_PATH = IN_DIR / "s4_recovery_tipping_point_base.csv"
+BASE_PATH = IN_DIR / "s4_recovery_threshold_scan_base.csv"
 
 
 WIDTH, HEIGHT = 1500, 1100

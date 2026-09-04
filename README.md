@@ -36,7 +36,7 @@ S1 and S2 capture the dominant continuing-play regimes, whereas S3 represents a 
 
 ![Recovery path after S4](figures/figure_1_recovery_vs_persistence.png)
 
-**Figure 1.** Subsequent observed disengagement risk is lower after S4 sessions that recover to S1/S2 than after S4 sessions followed by another S4 session.
+**Figure 1.** Among sessions following S4, subsequent 30-day observed disengagement risk is substantially lower for `S4->S1/S2` recovery paths than for `S4->S4` persistence paths.
 
 ![Recoverability curve](figures/figure_2_recoverability_curve.png)
 
@@ -133,7 +133,7 @@ The same paths can be supplied with `PWS_RAW_ZIP` and `PWS_RAW_DATA_DIR`. See `A
 - `step5_3_adjusted_recovery_path_model.py`: tests adjusted recovery-vs-persistence risk.
 - `step5_4_behavioral_rigidity.py`: computes rolling behavioral rigidity metrics.
 - `step5_5_behavioral_narrowing_test.py`: compares terminal disengagers with matched active controls.
-- `step5_6_recovery_tipping_point.py`: scans recovery threshold patterns.
+- `step5_6_recovery_threshold_scan.py`: scans recovery threshold patterns.
 - `step5_7_recovery_spline_model.py`: estimates nonlinear recoverability curves.
 - `make_core_figures.py`: exports the two core README figures.
 
@@ -148,11 +148,12 @@ The same paths can be supplied with `PWS_RAW_ZIP` and `PWS_RAW_DATA_DIR`. See `A
 - `step4_1_state_sequences/`: state assignments and transition matrices.
 - `step4_2_transition_robustness/`: robust transition matrix comparisons.
 - `step5_3_adjusted_recovery_path_model/`: adjusted recovery-vs-persistence models.
-- `step5_6_recovery_tipping_point/`: threshold scans and recovery probability plots.
+- `step5_6_recovery_threshold_scan/`: threshold scans and recovery probability plots.
 - `step5_7_recovery_spline_model/`: nonlinear recovery curve model and figure.
 
 ## Data Note
 
-Dataset: *PowerWash Simulator: Research Edition*. DOI: `10.17605/OSF.IO/WPEH6`.
+Dataset: *PowerWash Simulator: Research Edition*.  
+DOI: https://doi.org/10.17605/OSF.IO/WPEH6
 
 Raw telemetry is not redistributed in this repository. The analysis is designed to run from the publicly available dataset, while this repository contains the analysis code and derived outputs needed to reproduce the reported results.
