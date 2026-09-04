@@ -1,0 +1,18 @@
+{
+  "players_with_login_or_exit": 11080,
+  "total_logins_with_valid_pid_time": 113004,
+  "total_exits_with_valid_pid_time": 105869,
+  "paired_sessions": 105818,
+  "unmatched_logins": 7186,
+  "unmatched_exits": 51,
+  "overlapping_login_events": 5970,
+  "negative_duration_sessions": 0,
+  "zero_duration_sessions": 4,
+  "sessions_over_12h": 534,
+  "duration_seconds_min": 0.0,
+  "duration_seconds_p50": 3238.0,
+  "duration_seconds_p95": 17117.29999999999,
+  "duration_seconds_max": 85999.0,
+  "abs_delta_vs_exit_current_session_length_minutes_p50": 0.5,
+  "abs_delta_vs_exit_current_session_length_minutes_p95": 0.9666666666666666
+}

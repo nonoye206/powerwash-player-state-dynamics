@@ -1,0 +1,7 @@
+﻿event_feature,sessions_with_event,pct_sessions_with_event,sum_events,median_events,max_events
+jobs_started,2,0.026588673225206066,2,0.0,1
+jobs_resumed,0,0.0,0,0.0,0
+jobs_completed,13,0.1728263759638394,13,0.0,1
+jobs_exited,70,0.9306035628822121,70,0.0,1
+tasks_completed,18,0.23929805902685458,25,0.0,4
+items_purchased,54,0.7178941770805637,1662,0.0,317

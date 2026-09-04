@@ -1,0 +1,17 @@
+{
+  "sessions": 105818,
+  "players": 10834,
+  "zero_duration_sessions": 4,
+  "long_over_12h_sessions": 534,
+  "sessions_without_matched_exit_event": 0,
+  "sessions_with_multiple_matched_exit_events": 1,
+  "negative_progression_gain_sessions": 0,
+  "negative_campaign_progression_gain_sessions": 0,
+  "sessions_job_completed_gt_started_plus_resumed": 105,
+  "sessions_job_exited_gt_started_plus_resumed": 235,
+  "max_sessions_per_player": 269,
+  "p95_sessions_per_player": 36.0,
+  "duration_minutes_p50": 53.96666666666667,
+  "duration_minutes_p95": 285.2883333333332,
+  "duration_minutes_max": 1433.3166666666666
+}

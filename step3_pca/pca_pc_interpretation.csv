@@ -1,0 +1,6 @@
+﻿pc,explained_variance_ratio,top_positive_loadings,top_negative_loadings
+PC1,0.3783472488341653,no_started_or_resumed_job=0.309; log_gap_days=0.115; log_jobs_resumed=-0.076; first_session=-0.089,log_tasks_completed=-0.390; log_duration_minutes=-0.386; log_jobs_started=-0.376; progression_gain=-0.375
+PC2,0.1572978074292145,log_jobs_resumed=0.501; job_exit_ratio_capped=0.438; log_duration_minutes=0.154; log_gap_days=-0.013,no_started_or_resumed_job=-0.444; first_session=-0.366; log_jobs_started=-0.286; log_tasks_completed=-0.228
+PC3,0.10907676967446993,log_gap_days=0.563; log_jobs_resumed=0.308; no_started_or_resumed_job=0.267; purchase_any=0.235,first_session=-0.534; job_exit_ratio_capped=-0.278; log_jobs_started=0.005; log_duration_minutes=0.043
+PC4,0.08228099053646018,purchase_any=0.195; job_completion_ratio_capped=0.178; log_gap_days=0.112; progression_gain=0.095,mode_diversity=-0.942; log_jobs_started=-0.125; first_session=-0.033; job_exit_ratio_capped=-0.021
+PC5,0.0748436678737502,log_gap_days=0.610; job_exit_ratio_capped=0.267; log_jobs_started=0.205; log_duration_minutes=0.106,log_jobs_resumed=-0.522; purchase_any=-0.287; progression_gain=-0.257; no_started_or_resumed_job=-0.247

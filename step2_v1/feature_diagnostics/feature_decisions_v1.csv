@@ -1,0 +1,16 @@
+﻿feature,decision,reason
+duration_minutes,use_log1p_winsorized,"Core engagement intensity. Very right-skewed, with >12h sessions present."
+days_since_previous_session,use_log1p_with_first_session_indicator,Important recency signal. Missing mainly first sessions.
+player_lifetime_days,exclude_from_main_discovery_use_for_interpretation,"Captures longitudinal position, but may make states reflect lifecycle stage rather than session behavior."
+jobs_started,use_log1p_winsorized,Direct activity breadth signal.
+jobs_resumed,use_log1p_winsorized,Captures returning to incomplete jobs.
+jobs_completed,drop_or_keep_only_for_completion_variant,Highly redundant with job_completion_ratio and campaign/progression signals.
+jobs_exited,drop_or_keep_only_for_exit_variant,Highly coupled to starts/resumes; job_exit_ratio is more interpretable.
+tasks_completed,use_log1p_winsorized,Best compact signal for within-session work volume.
+items_purchased,use_binary_or_log1p_winsorized,Sparse but meaningful behavior; binary purchase_any may be more stable for clustering.
+job_completion_ratio,use_with_no_job_indicator,Interpretable outcome quality signal; undefined when no started/resumed job.
+job_exit_ratio,use_with_no_job_indicator,Interpretable disengagement/friction signal; undefined when no started/resumed job.
+progression_gain,use_winsorized,No negative values and directly captures level progress inside session.
+campaign_progression_gain,drop_initially,Sparse/redundant with completion and progression; keep for sensitivity analysis.
+primary_game_mode,exclude_from_unsupervised_numeric_state_discovery,Categorical label can dominate distance metrics; use for post-hoc state interpretation.
+mode_diversity,use,Compact numeric signal for mode switching.

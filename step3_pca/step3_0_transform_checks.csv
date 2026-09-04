@@ -1,0 +1,13 @@
+﻿check,max_abs_diff,passed
+first_session equals missing raw gap,0.0,True
+no_started_or_resumed_job equals jobs_started + jobs_resumed == 0,0.0,True
+log_duration_minutes equals log1p(P99-winsorized duration),8.881784197001252e-16,True
+"log_gap_days equals log1p(P99-winsorized gap, first sessions filled 0)",8.881784197001252e-16,True
+log_jobs_started equals log1p(P99-winsorized jobs_started),4.440892098500626e-16,True
+log_jobs_resumed equals log1p(P99-winsorized jobs_resumed),0.0,True
+log_tasks_completed equals log1p(P99-winsorized tasks_completed),4.440892098500626e-16,True
+purchase_any equals items_purchased > 0,0.0,True
+job_completion_ratio_capped equals clipped raw completion ratio,0.0,True
+job_exit_ratio_capped equals clipped raw exit ratio,0.0,True
+progression_gain equals P99-winsorized raw progression gain,4.235164736271502e-22,True
+mode_diversity equals raw mode diversity,0.0,True

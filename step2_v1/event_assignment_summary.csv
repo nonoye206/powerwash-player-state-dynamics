@@ -1,0 +1,8 @@
+﻿table,valid_events,assigned_events,unassigned_events
+job_started,176824,169159,7665
+job_resumed,67682,64135,3547
+job_exited,240417,231884,8533
+job_completed,155100,148865,6235
+task_completed,212818,204367,8451
+item_purchased,306975,292563,14412
+exited_game,105869,105819,50
