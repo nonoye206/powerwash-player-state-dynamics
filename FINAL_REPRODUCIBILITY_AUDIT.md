@@ -11,8 +11,8 @@ This audit verifies that the repository can be rerun from raw telemetry using pa
 ```powershell
 .\run_pipeline.ps1 `
   -Python "C:\path\to\python.exe" `
-  -RawZip "C:\path\to\data.zip" `
-  -RawDataDir "C:\path\to\data\data"
+  -RawZip "C:\data\powerwash\data.zip" `
+  -RawDataDir "C:\data\powerwash\data\data"
 ```
 
 ## Result

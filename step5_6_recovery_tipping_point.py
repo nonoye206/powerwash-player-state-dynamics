@@ -400,19 +400,19 @@ def main() -> None:
     display_best = main_best.sort_values(["timing", "collapse_pp"], ascending=[True, False])
 
     lines = [
-        "# Step 5.6 Recovery Tipping Point",
+        "# Step 5.6 Recovery Threshold Scan",
         "",
         "## Scope",
         "",
         "- Unit: S4 origin session.",
         "- Main outcome: recovery to S1/S2 within 30 days after S4, among 30d-evaluable S4 origins.",
         "- Sensitivities: 14d, 7d, and 30d excluding Jan31-Feb7.",
-        "- Tipping scan: quantile thresholds from P10 to P90, requiring at least 200 sessions on each side.",
-        "- Higher-side collapse means recovery probability is lower at or above the threshold than below it.",
+        "- Threshold scan: quantile thresholds from P10 to P90, requiring at least 200 sessions on each side.",
+        "- Higher-side difference means recovery probability is lower at or above the threshold than below it.",
         "",
         "## Best 30d Thresholds",
         "",
-        "| variable | timing | threshold | recovery below | recovery at/above | collapse pp | OR high vs low |",
+        "| variable | timing | threshold | recovery below | recovery at/above | difference pp | OR high vs low |",
         "|---|---|---:|---:|---:|---:|---:|",
     ]
     for r in display_best.itertuples(index=False):
@@ -424,9 +424,9 @@ def main() -> None:
 
     lines += [
         "",
-        "## Adjusted Ex-Ante Tipping Model",
+        "## Adjusted Ex-Ante Threshold Model",
         "",
-        "The adjusted model includes only ex-ante tipping dummies plus continuous controls for pre-S4 gap, lifetime, prior sessions, prior S4 count/share, month, and update-window. Outcome is recovery to S1/S2; OR below 1 means lower recoverability.",
+        "The adjusted model includes only ex-ante threshold dummies plus continuous controls for pre-S4 gap, lifetime, prior sessions, prior S4 count/share, month, and update-window. Outcome is recovery to S1/S2; OR below 1 means lower recoverability.",
         "",
         "| analysis | term | adjusted OR for recovery | 95% CI | p-value |",
         "|---|---|---:|---|---:|",
@@ -449,7 +449,7 @@ def main() -> None:
             f"- Strongest adjusted ex-ante threshold in the main model: `{s.term}` with OR {s.adjusted_odds_ratio_for_recovery:.3f} for recovery."
         )
     lines.append(
-        "- `gap_after_s4` is outcome-proximal, so it is useful for describing the collapse curve but should not be treated as an early warning signal."
+        "- `gap_after_s4` is outcome-proximal, so it is useful for describing post-S4 return timing but should not be treated as an early warning signal."
     )
     stable_prior = focal[
         focal["term"].str.contains("prior_s4_share|recent_s4_density")
@@ -458,11 +458,11 @@ def main() -> None:
     ]
     if not stable_prior.empty:
         lines.append(
-            "- The recoverability signal is strongest when S4 becomes dense in recent/history behavior, which supports the tipping-point interpretation better than a simple S4 count."
+            "- The recoverability signal is strongest when S4 becomes dense in recent/history behavior, supporting a progressive recoverability-decline interpretation better than a simple S4 count."
         )
     else:
         lines.append(
-            "- The adjusted evidence does not yet isolate a stable ex-ante tipping threshold from S4 density/history alone."
+            "- The adjusted evidence does not isolate a uniquely stable ex-ante threshold from S4 density/history alone."
         )
 
     lines += [
