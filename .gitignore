@@ -17,5 +17,15 @@ env/
 *.tar.gz
 *.7z
 
+# Regenerable pipeline outputs not committed as core review artifacts.
+step4_2_transition_robustness/
+step5_disengagement_risk/
+step5_2_logistic_disengagement/
+step5_3_recovery_path_analysis/
+step5_3_adjusted_recovery_path_model/
+step5_4_behavioral_rigidity/
+step5_5_behavioral_narrowing_test/
+step5_6_recovery_threshold_scan/
+
 Thumbs.db
 .DS_Store
