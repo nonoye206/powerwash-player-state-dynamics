@@ -1,131 +1,131 @@
-from __future__ import annotations
-
-import shutil
 from pathlib import Path
 
-import pandas as pd
-from PIL import Image, ImageDraw, ImageFont
+import matplotlib
 
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from matplotlib.ticker import PercentFormatter
+import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 FIG_DIR = ROOT / "figures"
-FIG_DIR.mkdir(exist_ok=True)
-
-RECOVERY_RISK = ROOT / "step5_3_adjusted_recovery_path_model" / "adjusted_recovery_path_unadjusted_risk.csv"
-RECOVERY_COEF = ROOT / "step5_3_adjusted_recovery_path_model" / "adjusted_recovery_path_coefficients.csv"
-SPLINE_SRC = ROOT / "step5_7_recovery_spline_model" / "recovery_spline_curve_recent_s4_density_prev5_30d.png"
-
-
-COLORS = {
-    "bg": (250, 250, 248),
-    "text": (34, 34, 34),
-    "muted": (98, 108, 118),
-    "axis": (64, 64, 64),
-    "grid": (218, 224, 228),
-    "s4": (184, 60, 60),
-    "recovery": (25, 112, 105),
-}
+TEAL, RED, MUTED = "#137F78", "#B95562", "#667078"
+plt.rcParams.update({
+    "font.family": "DejaVu Sans", "font.size": 11,
+    "text.color": "#24282C", "axes.labelcolor": "#24282C",
+    "xtick.color": MUTED, "ytick.color": MUTED,
+    "axes.spines.top": False, "axes.spines.right": False,
+    "axes.edgecolor": "#C6CDD1", "axes.linewidth": .8,
+    "savefig.facecolor": "white", "pdf.fonttype": 42,
+})
 
 
-def font(size: int, bold=False):
-    candidates = [
-        "C:/Windows/Fonts/arialbd.ttf" if bold else "C:/Windows/Fonts/arial.ttf",
-        "C:/Windows/Fonts/segoeuib.ttf" if bold else "C:/Windows/Fonts/segoeui.ttf",
-    ]
-    for path in candidates:
-        try:
-            return ImageFont.truetype(path, size)
-        except OSError:
-            pass
-    return ImageFont.load_default()
+def header(fig, number, title, subtitle):
+    fig.text(.08, .95, f"FIGURE {number}  /  PLAYER-STATE DYNAMICS", fontsize=9,
+             color=MUTED, weight="bold")
+    fig.text(.08, .895, title, fontsize=20, weight="bold")
+    fig.text(.08, .851, subtitle, fontsize=11, color=MUTED)
 
 
-def draw_text(draw, xy, text, size=24, bold=False, fill=None, anchor=None):
-    draw.text(xy, text, font=font(size, bold), fill=fill or COLORS["text"], anchor=anchor)
+def style(ax):
+    ax.set_axisbelow(True)
+    ax.yaxis.grid(True, color="#E8EBED", linewidth=.8)
+    ax.tick_params(length=0, pad=9)
+    ax.set_ylim(0, .55)
+    ax.set_yticks([0, .1, .2, .3, .4, .5])
+    ax.yaxis.set_major_formatter(PercentFormatter(1, decimals=0))
+
+
+def save(fig, name):
+    FIG_DIR.mkdir(exist_ok=True)
+    for suffix in ("png", "pdf"):
+        fig.savefig(FIG_DIR / f"{name}.{suffix}", dpi=240)
+    plt.close(fig)
+    return FIG_DIR / f"{name}.png"
 
 
 def make_recovery_vs_persistence():
-    risk = pd.read_csv(RECOVERY_RISK)
-    coef = pd.read_csv(RECOVERY_COEF)
-    risk30 = risk[risk["analysis"].eq("main_30d")].copy()
-    recovery = risk30[risk30["path_label"].eq("S4->S1/S2")].iloc[0]
-    persistence = risk30[risk30["path_label"].eq("S4->S4")].iloc[0]
-    adjusted = coef[(coef["analysis"].eq("main_30d")) & (coef["term"].eq("recovery_path"))].iloc[0]
-    robust = coef[(coef["analysis"].eq("exclude_update_window_30d")) & (coef["term"].eq("recovery_path"))].iloc[0]
-
-    width, height = 1200, 760
-    img = Image.new("RGB", (width, height), COLORS["bg"])
-    draw = ImageDraw.Draw(img)
-    draw_text(draw, (70, 35), "Recovery Path After S4 and Subsequent Disengagement", size=33, bold=True)
-    draw_text(draw, (70, 80), "Destination-session 30-day observed disengagement risk", size=21, fill=COLORS["muted"])
-
-    left, right = 190, 1030
-    top, bottom = 175, 540
-    ymax = 0.50
-
-    def sy(v):
-        return bottom - v / ymax * (bottom - top)
-
-    for frac in [0, 0.25, 0.50, 0.75, 1.0]:
-        y = frac * ymax
-        yy = sy(y)
-        draw.line((left, yy, right, yy), fill=COLORS["grid"], width=1)
-        draw_text(draw, (left - 15, yy), f"{int(y*100)}%", size=17, fill=COLORS["muted"], anchor="rm")
-    draw.line((left, bottom, right, bottom), fill=COLORS["axis"], width=2)
-    draw.line((left, top, left, bottom), fill=COLORS["axis"], width=2)
-    draw_text(draw, (left, top - 32), "30-day disengagement risk", size=17, fill=COLORS["muted"])
-
-    bars = [
-        ("S4->S1/S2\nrecovery", float(recovery["risk"]), int(recovery["sessions"]), COLORS["recovery"]),
-        ("S4->S4\npersistence", float(persistence["risk"]), int(persistence["sessions"]), COLORS["s4"]),
-    ]
-    x_positions = [430, 790]
-    bar_w = 170
-    for (label, value, n, color), x in zip(bars, x_positions):
-        y = sy(value)
-        draw.rounded_rectangle((x - bar_w / 2, y, x + bar_w / 2, bottom), radius=4, fill=color)
-        draw_text(draw, (x, y - 38), f"{value*100:.1f}%", size=30, bold=True, fill=COLORS["text"], anchor="ma")
-        lines = label.split("\n")
-        draw_text(draw, (x, bottom + 24), lines[0], size=21, bold=True, anchor="ma")
-        draw_text(draw, (x, bottom + 52), lines[1], size=18, fill=COLORS["muted"], anchor="ma")
-        draw_text(draw, (x, bottom + 82), f"n={n:,}", size=17, fill=COLORS["muted"], anchor="ma")
-
-    callout = (
-        f"Adjusted OR for recovery: {adjusted['adjusted_odds_ratio']:.3f} "
-        f"({adjusted['or_ci_low_95']:.3f}-{adjusted['or_ci_high_95']:.3f})"
-    )
-    draw.rounded_rectangle((300, 625, 900, 690), radius=6, outline=(205, 212, 216), width=1, fill=(255, 255, 253))
-    draw_text(draw, (600, 646), callout, size=20, bold=True, anchor="ma")
-    draw_text(
-        draw,
-        (600, 674),
-        f"Excluding Jan31-Feb7: OR {robust['adjusted_odds_ratio']:.3f}",
-        size=17,
-        fill=COLORS["muted"],
-        anchor="ma",
-    )
-
-    draw_text(
-        draw,
-        (70, 720),
-        "Reference path in adjusted model: S4->S4. Standard errors clustered by player.",
-        size=17,
-        fill=COLORS["muted"],
-    )
-    out = FIG_DIR / "figure_1_recovery_vs_persistence.png"
-    img.save(out)
-    return out
+    folder = ROOT / "step5_3_adjusted_recovery_path_model"
+    risk = pd.read_csv(folder / "adjusted_recovery_path_unadjusted_risk.csv")
+    coef = pd.read_csv(folder / "adjusted_recovery_path_coefficients.csv")
+    rows = risk[risk.analysis.eq("main_30d")].set_index("path_label")
+    effects = coef[coef.term.eq("recovery_path")].set_index("analysis")
+    main = effects.loc["main_30d"]
+    robust = effects.loc["exclude_update_window_30d"]
+    fig = plt.figure(figsize=(11, 8))
+    header(fig, 1, "Recovery paths and subsequent disengagement",
+           "30-day observed disengagement after the destination session following S4")
+    ax = fig.add_axes([.12, .34, .79, .43])
+    style(ax)
+    ax.set_xlim(-.65, 1.65)
+    ax.set_ylabel("Observed disengagement risk", labelpad=14)
+    for i, (path, color) in enumerate(zip(["S4->S1/S2", "S4->S4"], [TEAL, RED])):
+        row = rows.loc[path]
+        ax.bar(i, row.risk, width=.46, color=color, zorder=3)
+        ax.text(i, row.risk + .018, f"{row.risk:.2%}", ha="center",
+                fontsize=20, weight="bold", color=color)
+    ax.set_xticks([0, 1], [
+        f"Recovery: S4 → S1/S2\nn = {int(rows.loc['S4->S1/S2', 'sessions']):,} sessions",
+        f"Persistence: S4 → S4\nn = {int(rows.loc['S4->S4', 'sessions']):,} sessions",
+    ])
+    fig.text(.12, .207, "ADJUSTED ASSOCIATION", fontsize=9, weight="bold", color=MUTED)
+    fig.text(.12, .165,
+             f"OR {main.adjusted_odds_ratio:.3f}  "
+             f"(95% CI {main.or_ci_low_95:.3f}–{main.or_ci_high_95:.3f})",
+             fontsize=16, weight="bold", color=TEAL)
+    fig.text(.12, .126,
+             f"Excluding Jan 31–Feb 7: OR {robust.adjusted_odds_ratio:.3f}  "
+             f"(95% CI {robust.or_ci_low_95:.3f}–{robust.or_ci_high_95:.3f})",
+             fontsize=10, color=MUTED)
+    fig.text(.12, .064,
+             "Bars show unadjusted risks. Adjusted OR compares recovery with persistence.\n"
+             "Logistic regression with controls; standard errors clustered by player.",
+             fontsize=9, color=MUTED, linespacing=1.6)
+    return save(fig, "figure_1_recovery_vs_persistence")
 
 
-def copy_spline():
-    out = FIG_DIR / "figure_2_recoverability_curve.png"
-    shutil.copy2(SPLINE_SRC, out)
-    return out
+def make_recoverability_curve():
+    folder = ROOT / "step5_7_recovery_spline_model"
+    curve = pd.read_csv(folder / "recovery_spline_predicted_curve.csv")
+    bins = pd.read_csv(folder / "recovery_spline_observed_bins.csv")
+    fig = plt.figure(figsize=(11, 8))
+    header(fig, 2, "Recent S4 exposure and recoverability",
+           "30-day recovery to S1/S2 after an S4 session")
+    ax = fig.add_axes([.12, .40, .79, .38])
+    style(ax)
+    x = curve.recent_s4_density_prev5
+    ax.fill_between(x, curve.predicted_recovery_low, curve.predicted_recovery_high,
+                    color=TEAL, alpha=.16, linewidth=0, label="95% confidence interval")
+    ax.plot(x, curve.predicted_recovery_fit, color=TEAL, linewidth=2.5,
+            label="Adjusted spline prediction")
+    ax.set(xlim=(0, 1), ylabel="Adjusted recovery probability")
+    ax.set_xticks([0, .2, .4, .6, .8, 1])
+    ax.set_xlabel("S4 share in the previous 5 sessions", labelpad=10)
+    handles, labels = ax.get_legend_handles_labels()
+    ax.legend(handles[::-1], labels[::-1], loc="upper right", frameon=False, fontsize=9)
+    for density, offset in [(0, (12, 10)), (1, (-12, 12))]:
+        row = curve.loc[x.eq(density)].iloc[0]
+        val = row.predicted_recovery_fit
+        ax.plot(density, val, "o", color=TEAL, markersize=5, clip_on=False)
+        ax.annotate(f"{val:.1%}", (density, val), xytext=offset,
+                    textcoords="offset points", ha="left" if density == 0 else "right",
+                    fontsize=12, weight="bold", color=TEAL)
+    fig.text(.12, .269, "OBSERVED RECOVERY BY DENSITY BIN", fontsize=9,
+             weight="bold", color=MUTED)
+    for xpos, label, (_, row) in zip([.12, .40, .68], ["0.00–0.20", ">0.20–0.40", ">0.40–1.00"], bins.iterrows()):
+        fig.text(xpos, .226, f"{row.observed_recovery_rate:.1%}", fontsize=18, weight="bold")
+        fig.text(xpos, .192, f"Density {label}", fontsize=10, color=MUTED)
+        fig.text(xpos, .165, f"n = {int(row.sessions):,} sessions", fontsize=9, color=MUTED)
+    fig.text(.12, .065,
+             "Restricted cubic spline with controls; shaded band: player-clustered 95% CI.\n"
+             "Observed bin rates are unadjusted. The smooth curve does not establish a unique breakpoint.",
+             fontsize=9, color=MUTED, linespacing=1.6)
+    return save(fig, "figure_2_recoverability_curve")
 
 
 def main():
     print(make_recovery_vs_persistence())
-    print(copy_spline())
+    print(make_recoverability_curve())
 
 
 if __name__ == "__main__":
