@@ -355,7 +355,7 @@ def write_report(table_summaries, column_missing, session_summary, per_player):
     lines = []
     lines.append("# Step 1 Data Audit + Session Reconstruction")
     lines.append("")
-    lines.append(f"Source: `{ZIP_PATH}`")
+    lines.append("Source: PowerWash Simulator: Research Edition raw telemetry")
     lines.append("")
     lines.append("## Core table audit")
     lines.append("")
