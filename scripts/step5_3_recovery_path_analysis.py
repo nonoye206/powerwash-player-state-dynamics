@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
 INPUT = ROOT / "step5_disengagement_risk" / "session_disengagement_labels.csv"
 OUT = ROOT / "step5_3_recovery_path_analysis"
 

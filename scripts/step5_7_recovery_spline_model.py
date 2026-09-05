@@ -8,7 +8,7 @@ import pandas as pd
 from PIL import Image, ImageDraw, ImageFont
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
 BASE_PATH = ROOT / "step5_6_recovery_threshold_scan" / "s4_recovery_threshold_scan_base.csv"
 OUT_DIR = ROOT / "step5_7_recovery_spline_model"
 

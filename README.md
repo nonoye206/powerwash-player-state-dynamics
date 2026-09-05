@@ -116,26 +116,26 @@ Then run the full pipeline from raw telemetry:
 
 The same paths can be supplied with `PWS_RAW_ZIP` and `PWS_RAW_DATA_DIR`. See `ARTIFACT_MANIFEST.md` for the claim-to-artifact map.
 
-- `step1_data_audit.py`: audits source event tables and reconstructs sessions.
-- `step2_v1_session_features.py`: builds session-level V1 features.
-- `step2_v1_feature_diagnostics.py`: produces feature diagnostics and `state_discovery_input_v1.csv`.
-- `step3_pca_validation.py`: validates transforms, standardizes features, runs PCA, and exports PCA plots/loadings.
-- `step3_2_cluster_evaluation.py`: evaluates KMeans and GMM across `K=2..8`.
-- `step3_3_cluster_profiles.py`: profiles candidate clusters.
-- `step3_4_gmm_posterior_stability.py`: checks posterior confidence and seed/subsample stability.
-- `step3_5_minimal_session_cluster_audit.py`: audits the minimal/no-op cluster.
-- `step3_6_date_regime_sensitivity.py`: tests date-regime sensitivity and purchase anomalies.
-- `step4_1_state_sequences.py`: builds player state sequences and transition matrices.
-- `step4_2_transition_robustness.py`: compares transition robustness specifications.
-- `step5_disengagement_definition_risk.py`: defines observed disengagement and descriptive risk.
-- `step5_2_logistic_disengagement.py`: tests adjusted S4 persistence risk.
-- `step5_3_recovery_path_analysis.py`: describes S4 recovery and persistence paths.
-- `step5_3_adjusted_recovery_path_model.py`: tests adjusted recovery-vs-persistence risk.
-- `step5_4_behavioral_rigidity.py`: computes rolling behavioral rigidity metrics.
-- `step5_5_behavioral_narrowing_test.py`: compares terminal disengagers with matched active controls.
-- `step5_6_recovery_threshold_scan.py`: scans recovery threshold patterns.
-- `step5_7_recovery_spline_model.py`: estimates nonlinear recoverability curves.
-- `make_core_figures.py`: exports the two core README figures.
+- `scripts/step1_data_audit.py`: audits source event tables and reconstructs sessions.
+- `scripts/step2_v1_session_features.py`: builds session-level V1 features.
+- `scripts/step2_v1_feature_diagnostics.py`: produces feature diagnostics and `state_discovery_input_v1.csv`.
+- `scripts/step3_pca_validation.py`: validates transforms, standardizes features, runs PCA, and exports PCA plots/loadings.
+- `scripts/step3_2_cluster_evaluation.py`: evaluates KMeans and GMM across `K=2..8`.
+- `scripts/step3_3_cluster_profiles.py`: profiles candidate clusters.
+- `scripts/step3_4_gmm_posterior_stability.py`: checks posterior confidence and seed/subsample stability.
+- `scripts/step3_5_minimal_session_cluster_audit.py`: audits the minimal/no-op cluster.
+- `scripts/step3_6_date_regime_sensitivity.py`: tests date-regime sensitivity and purchase anomalies.
+- `scripts/step4_1_state_sequences.py`: builds player state sequences and transition matrices.
+- `scripts/step4_2_transition_robustness.py`: compares transition robustness specifications.
+- `scripts/step5_disengagement_definition_risk.py`: defines observed disengagement and descriptive risk.
+- `scripts/step5_2_logistic_disengagement.py`: tests adjusted S4 persistence risk.
+- `scripts/step5_3_recovery_path_analysis.py`: describes S4 recovery and persistence paths.
+- `scripts/step5_3_adjusted_recovery_path_model.py`: tests adjusted recovery-vs-persistence risk.
+- `scripts/step5_4_behavioral_rigidity.py`: computes rolling behavioral rigidity metrics.
+- `scripts/step5_5_behavioral_narrowing_test.py`: compares terminal disengagers with matched active controls.
+- `scripts/step5_6_recovery_threshold_scan.py`: scans recovery threshold patterns.
+- `scripts/step5_7_recovery_spline_model.py`: estimates nonlinear recoverability curves.
+- `scripts/make_core_figures.py`: exports the two core README figures.
 
 ## Main Outputs
 

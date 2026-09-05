@@ -6,7 +6,7 @@ import pandas as pd
 from PIL import Image, ImageDraw, ImageFont
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
 IN_DIR = ROOT / "step5_6_recovery_threshold_scan"
 OUT_DIR = ROOT / "step5_6_recovery_threshold_scan"
 BIN_PATH = IN_DIR / "recovery_probability_binned_trends.csv"

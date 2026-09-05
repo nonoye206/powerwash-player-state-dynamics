@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
 LABELS_PATH = ROOT / "step5_disengagement_risk" / "session_disengagement_labels.csv"
 OUT_DIR = ROOT / "step5_4_behavioral_rigidity"
 WINDOWS = (3, 5)

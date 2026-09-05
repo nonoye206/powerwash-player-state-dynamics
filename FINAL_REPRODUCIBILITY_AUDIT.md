@@ -57,5 +57,5 @@ Corrected adjusted predicted recovery:
 ## Notes
 
 - Raw telemetry paths are no longer hardcoded in Step 1/2; they can be passed by CLI or environment variables.
-- `requirements.txt`, `environment.yml`, `run_pipeline.ps1`, and `ARTIFACT_MANIFEST.md` document the runnable environment and artifact map.
+- `requirements.txt`, `environment.yml`, `run_pipeline.ps1`, `scripts/`, and `ARTIFACT_MANIFEST.md` document the runnable environment and artifact map.
 - Raw telemetry is intentionally excluded from version control.

@@ -7,7 +7,7 @@ import pandas as pd
 from PIL import Image, ImageDraw, ImageFont
 
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
 FIG_DIR = ROOT / "figures"
 FIG_DIR.mkdir(exist_ok=True)
 
